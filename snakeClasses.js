@@ -94,62 +94,67 @@ class Snake {
             if(e.keyCode == 38){
                 newDirection.x = 0;
                 newDirection.y = -1; 
+                this.currentDirecion = newDirection;
             }
         
             if(e.keyCode == 40){
                 newDirection.x = 0;
                 newDirection.y = 1;
+                this.currentDirecion = newDirection;
             }
         
             if(e.keyCode == 39){
                 newDirection.x = 1;
                 newDirection.y = 0;
+                this.currentDirecion = newDirection;
             }
         
             if(e.keyCode == 37){
                 newDirection.x = -1;
                 newDirection.y = 0;
+                this.currentDirecion = newDirection;
                 
             }
             if(newDirection.x * this.currentDirecion.x || newDirection.y * this.currentDirecion.y == -1){
                 return
             }
-            this.currentDirecion = newDirection;
+           
         
         }else if(this.playerNumber == 2){
             
             if(e.keyCode == 87){
                 newDirection.x = 0;
                 newDirection.y = -1; 
+                this.currentDirecion = newDirection;
             }
         
             if(e.keyCode == 83){
                 newDirection.x = 0;
                 newDirection.y = 1;
+                this.currentDirecion = newDirection;
             }
         
             if(e.keyCode == 68){
                 newDirection.x = 1;
                 newDirection.y = 0;
+                this.currentDirecion = newDirection;
             }
         
             if(e.keyCode == 65){
                 newDirection.x = -1;
                 newDirection.y = 0;
-                
+                this.currentDirecion = newDirection;
             }
             if(newDirection.x * this.currentDirecion.x || newDirection.y * this.currentDirecion.y == -1){
                 return
             }
-            this.currentDirecion = newDirection;
+            
         }
         
     }
 
 }
-
-let arrOfSnakes = [];
-
+//бла-бла-бла
 document.addEventListener('keydown', function(e){
     for(let i = 0; i < arrOfSnakes.length; i++){
         arrOfSnakes[i].changeDirectionOfSnake(e)
@@ -177,6 +182,7 @@ function drawField(){
 
 let number1 = 1;
 let number2 = 2;
+let arrOfSnakes = [];
 
 function createSnakes(){
     arrOfSnakes = [];
@@ -198,10 +204,6 @@ function startGame(){
     drawField();
 }
 
-function stopGame(){
-    clearInterval(intervalId);
-}
-
 function mainLoop(){
     for(let i = 0; i < arrOfSnakes.length; i++){
         if(arrOfSnakes[i].checkAppleCollision(apple)){
@@ -217,4 +219,8 @@ function mainLoop(){
         }
         drawField();
     }
+}
+
+function stopGame(){
+    clearInterval(intervalId);
 }
