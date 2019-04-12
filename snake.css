@@ -1,0 +1,9 @@
+.game {
+    position: relative;
+    top: 400px;
+    left: 200px;
+}
+#canvas {
+    position: relative;
+    left: 200px;
+}
