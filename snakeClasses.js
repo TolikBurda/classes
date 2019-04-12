@@ -94,67 +94,90 @@ class Snake {
             if(e.keyCode == 38){
                 newDirection.x = 0;
                 newDirection.y = -1; 
+                if(newDirection.x * this.currentDirecion.x == -1 || newDirection.y * this.currentDirecion.y == -1){
+                    return
+                }
                 this.currentDirecion = newDirection;
             }
         
             if(e.keyCode == 40){
                 newDirection.x = 0;
                 newDirection.y = 1;
+                if(newDirection.x * this.currentDirecion.x == -1 || newDirection.y * this.currentDirecion.y == -1){
+                    return
+                }
                 this.currentDirecion = newDirection;
             }
         
             if(e.keyCode == 39){
                 newDirection.x = 1;
                 newDirection.y = 0;
+                if(newDirection.x * this.currentDirecion.x == -1 || newDirection.y * this.currentDirecion.y == -1){
+                    return
+                }
                 this.currentDirecion = newDirection;
             }
         
             if(e.keyCode == 37){
                 newDirection.x = -1;
                 newDirection.y = 0;
+                if(newDirection.x * this.currentDirecion.x == -1 || newDirection.y * this.currentDirecion.y == -1){
+                    return
+                }
                 this.currentDirecion = newDirection;
                 
             }
-            if(newDirection.x * this.currentDirecion.x || newDirection.y * this.currentDirecion.y == -1){
-                return
-            }
-           
+            // if(newDirection.x * this.currentDirecion.x == -1 || newDirection.y * this.currentDirecion.y == -1){
+            //     return
+            // }
+            //this.currentDirecion = newDirection;
         
         }else if(this.playerNumber == 2){
             
             if(e.keyCode == 87){
                 newDirection.x = 0;
                 newDirection.y = -1; 
+                if(newDirection.x * this.currentDirecion.x == -1 || newDirection.y * this.currentDirecion.y == -1){
+                    return
+                }
                 this.currentDirecion = newDirection;
             }
         
             if(e.keyCode == 83){
                 newDirection.x = 0;
                 newDirection.y = 1;
+                if(newDirection.x * this.currentDirecion.x == -1 || newDirection.y * this.currentDirecion.y == -1){
+                    return
+                }
                 this.currentDirecion = newDirection;
             }
         
             if(e.keyCode == 68){
                 newDirection.x = 1;
                 newDirection.y = 0;
+                if(newDirection.x * this.currentDirecion.x == -1 || newDirection.y * this.currentDirecion.y == -1){
+                    return
+                }
                 this.currentDirecion = newDirection;
             }
         
             if(e.keyCode == 65){
                 newDirection.x = -1;
                 newDirection.y = 0;
+                if(newDirection.x * this.currentDirecion.x == -1 || newDirection.y * this.currentDirecion.y == -1){
+                    return
+                }
                 this.currentDirecion = newDirection;
             }
-            if(newDirection.x * this.currentDirecion.x || newDirection.y * this.currentDirecion.y == -1){
-                return
-            }
-            
+            // if(newDirection.x * this.currentDirecion.x == -1 || newDirection.y * this.currentDirecion.y == -1){
+            //     return
+            // }
+            //this.currentDirecion = newDirection;
         }
         
     }
 
 }
-//бла-бла-бла
 document.addEventListener('keydown', function(e){
     for(let i = 0; i < arrOfSnakes.length; i++){
         arrOfSnakes[i].changeDirectionOfSnake(e)
@@ -199,7 +222,7 @@ let intervalId = null;
 function startGame(){
     stopGame();
     createSnakes()
-    intervalId = setInterval(mainLoop, 300);
+    intervalId = setInterval(mainLoop, 600);
     spawnApple();
     drawField();
 }
