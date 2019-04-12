@@ -46,7 +46,6 @@ class Snake {
             x: this.segments[0].x + this.currentDirecion.x,
             y: this.segments[0].y + this.currentDirecion.y
         }
-
         this.segments.unshift(newPiece);
     }
 
@@ -77,106 +76,58 @@ class Snake {
 
     checkBordersCollision(){
         if(this.segments[0].x > this.fieldWidth || this.segments[0].y > this.fieldHeight || this.segments[0].x < 0 || this.segments[0].y < 0){
-            // ctx.fillStyle = 'white';
-            // ctx.fillRect(0, 0, canvas.width, canvas.height);
-            // ctx.fillStyle = 'black';
-            // ctx.font = 'bold 40px Georgia';
-            // ctx.fillText("game over", 50, 50);
-            return true; // clearInterval(intervalId);
+            return true; 
         }
         return false
     }
 
     changeDirectionOfSnake(e){
-        let newDirection = {x: 0, y: 0}
         if(this.playerNumber == 1){
             
-            if(e.keyCode == 38){
-                newDirection.x = 0;
-                newDirection.y = -1; 
-                if(newDirection.x * this.currentDirecion.x == -1 || newDirection.y * this.currentDirecion.y == -1){
-                    return
-                }
-                this.currentDirecion = newDirection;
+            if(e.keyCode == 38 && this.currentDirecion.y != 1){
+                this.currentDirecion.x = 0;
+                this.currentDirecion.y = -1;
             }
         
-            if(e.keyCode == 40){
-                newDirection.x = 0;
-                newDirection.y = 1;
-                if(newDirection.x * this.currentDirecion.x == -1 || newDirection.y * this.currentDirecion.y == -1){
-                    return
-                }
-                this.currentDirecion = newDirection;
+            if(e.keyCode == 40 && this.currentDirecion.y != -1){
+                this.currentDirecion.x = 0;
+                this.currentDirecion.y = 1;
             }
         
-            if(e.keyCode == 39){
-                newDirection.x = 1;
-                newDirection.y = 0;
-                if(newDirection.x * this.currentDirecion.x == -1 || newDirection.y * this.currentDirecion.y == -1){
-                    return
-                }
-                this.currentDirecion = newDirection;
+            if(e.keyCode == 39 && this.currentDirecion.x != -1){
+                this.currentDirecion.x = 1;
+                this.currentDirecion.y = 0;
             }
         
-            if(e.keyCode == 37){
-                newDirection.x = -1;
-                newDirection.y = 0;
-                if(newDirection.x * this.currentDirecion.x == -1 || newDirection.y * this.currentDirecion.y == -1){
-                    return
-                }
-                this.currentDirecion = newDirection;
-                
+            if(e.keyCode == 37 && this.currentDirecion.x != 1){
+                this.currentDirecion.x = -1;
+                this.currentDirecion.y = 0;    
             }
-            // if(newDirection.x * this.currentDirecion.x == -1 || newDirection.y * this.currentDirecion.y == -1){
-            //     return
-            // }
-            //this.currentDirecion = newDirection;
         
         }else if(this.playerNumber == 2){
             
-            if(e.keyCode == 87){
-                newDirection.x = 0;
-                newDirection.y = -1; 
-                if(newDirection.x * this.currentDirecion.x == -1 || newDirection.y * this.currentDirecion.y == -1){
-                    return
-                }
-                this.currentDirecion = newDirection;
+            if(e.keyCode == 87 && this.currentDirecion.y != 1){
+                this.currentDirecion.x = 0;
+                this.currentDirecion.y = -1; 
             }
         
-            if(e.keyCode == 83){
-                newDirection.x = 0;
-                newDirection.y = 1;
-                if(newDirection.x * this.currentDirecion.x == -1 || newDirection.y * this.currentDirecion.y == -1){
-                    return
-                }
-                this.currentDirecion = newDirection;
+            if(e.keyCode == 83 && this.currentDirecion.y != -1){
+                this.currentDirecion.x = 0;
+                this.currentDirecion.y = 1;
             }
         
-            if(e.keyCode == 68){
-                newDirection.x = 1;
-                newDirection.y = 0;
-                if(newDirection.x * this.currentDirecion.x == -1 || newDirection.y * this.currentDirecion.y == -1){
-                    return
-                }
-                this.currentDirecion = newDirection;
+            if(e.keyCode == 68 && this.currentDirecion.x != -1){
+                this.currentDirecion.x = 1;
+                this.currentDirecion.y = 0;
             }
         
-            if(e.keyCode == 65){
-                newDirection.x = -1;
-                newDirection.y = 0;
-                if(newDirection.x * this.currentDirecion.x == -1 || newDirection.y * this.currentDirecion.y == -1){
-                    return
-                }
-                this.currentDirecion = newDirection;
+            if(e.keyCode == 65 && this.currentDirecion.x != 1){
+                this.currentDirecion.x = -1;
+                this.currentDirecion.y = 0;
             }
-            // if(newDirection.x * this.currentDirecion.x == -1 || newDirection.y * this.currentDirecion.y == -1){
-            //     return
-            // }
-            //this.currentDirecion = newDirection;
         }
         
     }
-
 }
 document.addEventListener('keydown', function(e){
     for(let i = 0; i < arrOfSnakes.length; i++){
