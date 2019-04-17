@@ -187,10 +187,6 @@ document.addEventListener('keydown', function(e){
 
 
 
-
-
-
-
 class Drawing {
     constructor(w, h, c, g){
         this.canvas = document.getElementById('canvas');
@@ -230,9 +226,8 @@ const draw = new Drawing(fieldWidth, fieldHeight, cellSize)
 const game = new Game([snake, snake1], fieldWidth, fieldHeight, draw)
 
 start.addEventListener('click', function(){                        ///()=>
-    game.startGame()
+    game.startGame();
 } );
-
-
-
-
+stop.addEventListener('click', function(){
+    game.stopGame();
+} );
