@@ -4,8 +4,8 @@ let twoPlayers = document.getElementById('two')
 //start.addEventListener('click', game.startGame);
 // stop.addEventListener('click', stopGame);
 // twoPlayers.addEventListener('click', function(e){
-
 // });
+
 const fieldWidth = 20;
 const fieldHeight = 20;
 const cellSize = 10;
@@ -185,8 +185,6 @@ document.addEventListener('keydown', function(e){
     }
 })
 
-
-
 class Drawing {
     constructor(w, h, c, g){
         this.canvas = document.getElementById('canvas');
@@ -209,7 +207,6 @@ class Drawing {
             for(let i = 0; i < snake.segments.length; i++){
                 this.ctx.strokeRect(snake.segments[i].x*this.cellSize, snake.segments[i].y*this.cellSize, this.cellSize, this.cellSize);
             }
-            //console.log(snake.segments[i].x)
         }
         
         this.ctx.strokeStyle = 'magenta';
