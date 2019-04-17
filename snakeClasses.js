@@ -1,24 +1,24 @@
-var canvas = document.getElementById('canvas'),
+let canvas = document.getElementById('canvas'),
     ctx = canvas.getContext('2d');
 
 
-var start = document.getElementById('start');
-var stop = document.getElementById('end');
-var twoPlayers = document.getElementById('two')
+let start = document.getElementById('start');
+let stop = document.getElementById('end');
+let twoPlayers = document.getElementById('two');
 start.addEventListener('click', startGame);
 stop.addEventListener('click', stopGame);
 // twoPlayers.addEventListener('click', function(e){
 
 // });
-var fieldWidth = 20;
-var fieldHeight = 20;
-var cellSize = 10;
+const fieldWidth = 20;
+const fieldHeight = 20;
+const cellSize = 10;
 canvas.width = (fieldWidth + 1)*cellSize;
 canvas.height = (fieldHeight + 1)*cellSize;
 
-var apple = { x: 0, y: 0 }
+let apple = { x: 0, y: 0 }
 
-function spawnApple(){
+function spawnApple(){ //////////////////////
     apple.x = Math.round(Math.random() * fieldWidth);
     apple.y = Math.round(Math.random() * fieldHeight); 
 }
@@ -135,7 +135,7 @@ document.addEventListener('keydown', function(e){
     }
 })
 
-function drawField(){
+function drawField(){    ///////////////
     ctx.fillStyle = 'white';
     ctx.fillRect(0, 0, canvas.width, canvas.height);
 
@@ -158,7 +158,7 @@ let number1 = 1;
 let number2 = 2;
 let arrOfSnakes = [];
 
-function createSnakes(){
+function createSnakes(){   ////////////////
     arrOfSnakes = [];
     const snake = new Snake(fieldWidth, fieldHeight, number1);
     const snake1 = new Snake(fieldWidth, fieldHeight, number2);
@@ -170,7 +170,7 @@ function createSnakes(){
 
 let intervalId = null;
 
-function startGame(){
+function startGame(){  //////////////
     stopGame();
     createSnakes()
     intervalId = setInterval(mainLoop, 600);
@@ -178,7 +178,7 @@ function startGame(){
     drawField();
 }
 
-function mainLoop(){
+function mainLoop(){ ////////////////
     for(let i = 0; i < arrOfSnakes.length; i++){
         if(arrOfSnakes[i].checkAppleCollision(apple)){
             arrOfSnakes[i].growSnake();
@@ -195,6 +195,6 @@ function mainLoop(){
     }
 }
 
-function stopGame(){
+function stopGame(){  //////////////////
     clearInterval(intervalId);
 }
