@@ -9,17 +9,45 @@ let twoPlayers = document.getElementById('two')
 const fieldWidth = 20;
 const fieldHeight = 20;
 const cellSize = 10;
-const number1 = 1;
-const number2 = 2;
+// const number1 = 1;
+// const number2 = 2;
+
+// var directionMap = {
+//     up : { x: 0, y: -1},
+//     down: {x: 0, y: 1},
+//     right: {x: 1, y: 0},
+//     left: { x: -1, y: 0}
+// }
+
+// var superInputMap = {
+//     38 : directionMap.up,
+//     40 : directionMap.down,
+//     39 : directionMap.right,
+//     37 : directionMap.left
+// }
+
+// var eventCode = 37
+
+// var directionChange = superInputMap[eventCode]
+
+// if (directionChange) {
+//     console.log(directionChange);
+    
+// } else {
+//     console.log('button not connected');
+
+// }
+
+
 
 class Snake {
-    constructor(w, h, n){
+    constructor(w, h, inputMap){
         this.segments = [];
         this.currentDirecion = { x: 0, y: 0};
         this.fieldWidth = w;
         this.fieldHeight = h;
         this.createSnake();
-        this.playerNumber = n
+        this.superInputMap = inputMap;
     }
     createSnake(){
         const head = {
@@ -70,81 +98,83 @@ class Snake {
     }
 
     changeDirectionOfSnake(e){
-        if(this.playerNumber == 1){
-            
-            if(e.keyCode == 38 && this.currentDirecion.y != 1){
-                this.currentDirecion.x = 0;
-                this.currentDirecion.y = -1;
-            }
-        
-            if(e.keyCode == 40 && this.currentDirecion.y != -1){
-                this.currentDirecion.x = 0;
-                this.currentDirecion.y = 1;
-            }
-        
-            if(e.keyCode == 39 && this.currentDirecion.x != -1){
-                this.currentDirecion.x = 1;
-                this.currentDirecion.y = 0;
-            }
-        
-            if(e.keyCode == 37 && this.currentDirecion.x != 1){
-                this.currentDirecion.x = -1;
-                this.currentDirecion.y = 0;    
-            }
-        
-        }else if(this.playerNumber == 2){
-            
-            if(e.keyCode == 87 && this.currentDirecion.y != 1){
-                this.currentDirecion.x = 0;
-                this.currentDirecion.y = -1; 
-            }
-        
-            if(e.keyCode == 83 && this.currentDirecion.y != -1){
-                this.currentDirecion.x = 0;
-                this.currentDirecion.y = 1;
-            }
-        
-            if(e.keyCode == 68 && this.currentDirecion.x != -1){
-                this.currentDirecion.x = 1;
-                this.currentDirecion.y = 0;
-            }
-        
-            if(e.keyCode == 65 && this.currentDirecion.x != 1){
-                this.currentDirecion.x = -1;
-                this.currentDirecion.y = 0;
-            }
+        var directionMap = {
+            up : { x: 0, y: -1},
+            down: {x: 0, y: 1},
+            right: {x: 1, y: 0},
+            left: { x: -1, y: 0}
         }
         
+        // var superInputMap = {
+        //     38 : 'up',
+        //     40 : 'down',
+        //     39 : 'right',
+        //     37 : 'left'
+        // }
+        
+        var eventCode = e.keyCode
+        console.log(superInputMap[eventCode]);
+        
+        var directionChange = superInputMap[eventCode]
+        if(!directionChange){
+            return null
+        }
+        if (directionChange.x * this.currentDirecion.x != -1 && directionChange.y * this.currentDirecion.y != -1) {
+            this.currentDirecion = directionChange;
+            //console.log(directionChange);
+        }  
     }
 }
 
 class Game {
-    constructor(arr, w, h, d){
+    constructor( w, h, d){
         this.fieldWidth = w;
         this.fieldHeight = h;
         this.intervalId = null;
-        this.arrOfSnakes = arr;
+        this.arrOfSnakes = [];
         this.apple = { x: 0, y: 0 };
         this.draw = d;
         // this.snake = s;
         // this.snake1 = s1;
         //this.spawnApple();
+        //this.createSnakes();
+        this.superInputMap = [
+            {
+                38 : 'up',
+                40 : 'down',
+                39 : 'right',
+                37 : 'left'
+            },
+            {
+                87 : 'up',
+                83 : 'down',
+                68 : 'right',
+                65 : 'left'
+            }
+        ]
     }
     
     spawnApple(){ 
         this.apple.x = Math.round(Math.random() * this.fieldWidth);
         this.apple.y = Math.round(Math.random() * this.fieldHeight); 
-        console.log(this.apple);
+        //console.log(this.apple);
         
     }
-    // createSnakes(){
-    //     this.arrOfSnakes.push(snake)
-    //     this.arrOfSnakes.push(snake1)
-    //     console.log(this.arrOfSnakes);
-    // }
+    createSnakes(){
+        const snake = new Snake(this.fieldWidth, this.fieldHeight, this.superInputMap[0]);
+        const snake1 = new Snake(this.fieldWidth, this.fieldHeight, this.superInputMap[1]);
+        this.arrOfSnakes.push(snake)
+        this.arrOfSnakes.push(snake1)
+        console.log('1');
+    }
 
     snakesControl(){
 
+        document.addEventListener('keydown', function(e){
+            for(let i = 0; i < this.arrOfSnakes.length; i++){
+                this.arrOfSnakes[i].changeDirectionOfSnake(e)
+            }
+        })
     }
 
     stopGame(){
@@ -154,9 +184,9 @@ class Game {
     startGame(){
         this.stopGame();
         this.arrOfSnakes;
-        this.intervalId = setInterval(()=>{
+        this.intervalId = setInterval(()=> {
             this.mainLoop()
-        }, 600);
+        }, 600);   //// var 
         this.spawnApple();
     }
     mainLoop(){
@@ -179,15 +209,9 @@ class Game {
 
 }
 
-document.addEventListener('keydown', function(e){
-    for(let i = 0; i < game.arrOfSnakes.length; i++){
-        game.arrOfSnakes[i].changeDirectionOfSnake(e)
-    }
-})
-
 class Drawing {
     constructor(w, h, c, g){
-        this.canvas = document.getElementById('canvas');
+        this.canvas = document.getElementById('canvas');///создавать, а не получать 
         this.ctx = canvas.getContext('2d');
         this.fieldWidth = w;
         this.fieldHeight = h;
@@ -195,6 +219,7 @@ class Drawing {
         //this.game = g;
         this.canvas.width = (this.fieldWidth + 1)*this.cellSize;
         this.canvas.height = (this.fieldHeight + 1)*this.cellSize; 
+        
     }
 
     drawField(game){   
@@ -209,6 +234,7 @@ class Drawing {
             }
         }
         
+        
         this.ctx.strokeStyle = 'magenta';
         this.ctx.strokeRect(game.apple.x*this.cellSize, game.apple.y*this.cellSize, this.cellSize, this.cellSize);
     
@@ -217,10 +243,9 @@ class Drawing {
     }
 }
 
-const snake = new Snake(fieldWidth, fieldHeight, number1);
-const snake1 = new Snake(fieldWidth, fieldHeight, number2);
+
 const draw = new Drawing(fieldWidth, fieldHeight, cellSize)
-const game = new Game([snake, snake1], fieldWidth, fieldHeight, draw)
+const game = new Game(fieldWidth, fieldHeight, draw)
 
 start.addEventListener('click', function(){                        ///()=>
     game.startGame();
@@ -228,3 +253,30 @@ start.addEventListener('click', function(){                        ///()=>
 stop.addEventListener('click', function(){
     game.stopGame();
 } );
+
+// document.addEventListener('keydown', function(e){
+//     for(let i = 0; i < game.arrOfSnakes.length; i++){
+//         game.arrOfSnakes[i].changeDirectionOfSnake(e)
+//     }
+// })
+
+// var event = new Event("keydown");
+
+// document.dispatchEvent(event)
+
+
+
+
+// function test2(){
+//     console.log('hello again');
+// }
+
+// class Test {
+//     constructor () {
+//         console.log('hello');
+//     }
+// }
+
+// var t = new Test()
+// test2()
+
