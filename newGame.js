@@ -100,8 +100,8 @@ class Snake {
     changeDirectionOfSnake(e){
         var directionMap = {
             up : { x: 0, y: -1},
-            down: {x: 0, y: 1},
-            right: {x: 1, y: 0},
+            down: { x: 0, y: 1},
+            right: { x: 1, y: 0},
             left: { x: -1, y: 0}
         }
         
@@ -115,19 +115,23 @@ class Snake {
         var eventCode = e.keyCode
         console.log(superInputMap[eventCode]);
         
-        var directionChange = superInputMap[eventCode]
+        var directionChange = this.superInputMap[eventCode]
+
         if(!directionChange){
             return null
         }
-        if (directionChange.x * this.currentDirecion.x != -1 && directionChange.y * this.currentDirecion.y != -1) {
-            this.currentDirecion = directionChange;
-            //console.log(directionChange);
-        }  
+        if(directionChange in directionMap){
+            if (directionChange.x * this.currentDirecion.x != -1 && directionChange.y * this.currentDirecion.y != -1) {
+                this.currentDirecion = directionChange;
+                //console.log(directionChange);
+            }  
+        }
+
     }
 }
 
 class Game {
-    constructor( w, h, d){
+    constructor(w, h, d){
         this.fieldWidth = w;
         this.fieldHeight = h;
         this.intervalId = null;
@@ -162,10 +166,13 @@ class Game {
     }
     createSnakes(){
         const snake = new Snake(this.fieldWidth, this.fieldHeight, this.superInputMap[0]);
+        console.log(snake);
         const snake1 = new Snake(this.fieldWidth, this.fieldHeight, this.superInputMap[1]);
+        console.log(snake1);
+        
         this.arrOfSnakes.push(snake)
         this.arrOfSnakes.push(snake1)
-        console.log('1');
+        console.log(this.arrOfSnakes);
     }
 
     snakesControl(){
@@ -183,12 +190,20 @@ class Game {
 
     startGame(){
         this.stopGame();
-        this.arrOfSnakes;
+        this.createSnakes();
+        //this.arrOfSnakes;
         this.intervalId = setInterval(()=> {
             this.mainLoop()
         }, 600);   //// var 
         this.spawnApple();
     }
+
+    gameControl(){
+        start.addEventListener('click', ()=>{                        ///()=>
+            this.startGame();
+        } );
+    }
+
     mainLoop(){
         for(let i = 0; i < this.arrOfSnakes.length; i++){
             if(this.arrOfSnakes[i].checkAppleCollision(this.apple)){
@@ -205,12 +220,10 @@ class Game {
             this.draw.drawField(this);
         }
     }
-    
-
 }
 
 class Drawing {
-    constructor(w, h, c, g){
+    constructor(w, h, c){
         this.canvas = document.getElementById('canvas');///создавать, а не получать 
         this.ctx = canvas.getContext('2d');
         this.fieldWidth = w;
