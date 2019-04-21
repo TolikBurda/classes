@@ -9,36 +9,6 @@ let twoPlayers = document.getElementById('two')
 const fieldWidth = 20;
 const fieldHeight = 20;
 const cellSize = 10;
-// const number1 = 1;
-// const number2 = 2;
-
-// var directionMap = {
-//     up : { x: 0, y: -1},
-//     down: {x: 0, y: 1},
-//     right: {x: 1, y: 0},
-//     left: { x: -1, y: 0}
-// }
-
-// var superInputMap = {
-//     38 : directionMap.up,
-//     40 : directionMap.down,
-//     39 : directionMap.right,
-//     37 : directionMap.left
-// }
-
-// var eventCode = 37
-
-// var directionChange = superInputMap[eventCode]
-
-// if (directionChange) {
-//     console.log(directionChange);
-    
-// } else {
-//     console.log('button not connected');
-
-// }
-
-
 
 class Snake {
     constructor(w, h, inputMap){
@@ -55,6 +25,8 @@ class Snake {
             y: Math.round(Math.random() * this.fieldHeight)
         }
         this.segments.push(head);
+        console.log('head', head);
+        
     }
 
     growSnake(){
@@ -104,28 +76,20 @@ class Snake {
             right: { x: 1, y: 0},
             left: { x: -1, y: 0}
         }
-        
-        // var superInputMap = {
-        //     38 : 'up',
-        //     40 : 'down',
-        //     39 : 'right',
-        //     37 : 'left'
-        // }
-        
-        var eventCode = e.keyCode
-        console.log(superInputMap[eventCode]);
-        
-        var directionChange = this.superInputMap[eventCode]
+           
+        let eventCode = e     
+        let directionChange = directionMap[this.superInputMap[eventCode]]
 
         if(!directionChange){
             return null
         }
-        if(directionChange in directionMap){
-            if (directionChange.x * this.currentDirecion.x != -1 && directionChange.y * this.currentDirecion.y != -1) {
-                this.currentDirecion = directionChange;
-                //console.log(directionChange);
-            }  
-        }
+        let check = this.currentDirecion.x * directionChange.x
+        console.log(check);
+        
+        if (directionChange.x * this.currentDirecion.x == -1 || directionChange.y * this.currentDirecion.y == -1) {
+            return
+        }  
+        this.currentDirecion = directionChange;
 
     }
 }
@@ -134,12 +98,12 @@ class Game {
     constructor(w, h, d){
         this.fieldWidth = w;
         this.fieldHeight = h;
+        this.gameControl()
         this.intervalId = null;
         this.arrOfSnakes = [];
         this.apple = { x: 0, y: 0 };
         this.draw = d;
-        // this.snake = s;
-        // this.snake1 = s1;
+        this.timer = 200;
         //this.spawnApple();
         //this.createSnakes();
         this.superInputMap = [
@@ -161,7 +125,7 @@ class Game {
     spawnApple(){ 
         this.apple.x = Math.round(Math.random() * this.fieldWidth);
         this.apple.y = Math.round(Math.random() * this.fieldHeight); 
-        //console.log(this.apple);
+        console.log('apple', this.apple);
         
     }
     createSnakes(){
@@ -176,31 +140,39 @@ class Game {
     }
 
     snakesControl(){
-
-        document.addEventListener('keydown', function(e){
+        document.addEventListener('keydown', (e)=> {
             for(let i = 0; i < this.arrOfSnakes.length; i++){
-                this.arrOfSnakes[i].changeDirectionOfSnake(e)
+                this.arrOfSnakes[i].changeDirectionOfSnake(e.keyCode)
+                console.log(e.keyCode);
+                
             }
         })
     }
 
     stopGame(){
         clearInterval(this.intervalId);
+
+        console.log('game stoped');
     }
 
     startGame(){
         this.stopGame();
         this.createSnakes();
+        this.snakesControl()
         //this.arrOfSnakes;
         this.intervalId = setInterval(()=> {
             this.mainLoop()
-        }, 600);   //// var 
+        }, this.timer);   //// var 
         this.spawnApple();
     }
 
     gameControl(){
         start.addEventListener('click', ()=>{                        ///()=>
-            this.startGame();
+            this.startGame(); 
+        } );
+
+        stop.addEventListener('click', ()=>{
+            this.stopGame();
         } );
     }
 
@@ -260,25 +232,9 @@ class Drawing {
 const draw = new Drawing(fieldWidth, fieldHeight, cellSize)
 const game = new Game(fieldWidth, fieldHeight, draw)
 
-start.addEventListener('click', function(){                        ///()=>
-    game.startGame();
-} );
-stop.addEventListener('click', function(){
-    game.stopGame();
-} );
-
-// document.addEventListener('keydown', function(e){
-//     for(let i = 0; i < game.arrOfSnakes.length; i++){
-//         game.arrOfSnakes[i].changeDirectionOfSnake(e)
-//     }
-// })
-
 // var event = new Event("keydown");
 
 // document.dispatchEvent(event)
-
-
-
 
 // function test2(){
 //     console.log('hello again');
