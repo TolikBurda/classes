@@ -8,7 +8,7 @@ let twoPlayers = document.getElementById('two')
 
 const fieldWidth = 20;
 const fieldHeight = 20;
-const cellSize = 10;
+// const cellSize = 10;
 
 class Snake {
     constructor(w, h, inputMap){
@@ -24,9 +24,7 @@ class Snake {
             x: Math.round(Math.random() *  this.fieldWidth),
             y: Math.round(Math.random() * this.fieldHeight)
         }
-        this.segments.push(head);
-        console.log('head', head);
-        
+        this.segments.push(head);      
     }
 
     growSnake(){
@@ -83,14 +81,11 @@ class Snake {
         if(!directionChange){
             return null
         }
-        let check = this.currentDirecion.x * directionChange.x
-        console.log(check);
-        
+
         if (directionChange.x * this.currentDirecion.x == -1 || directionChange.y * this.currentDirecion.y == -1) {
             return
         }  
         this.currentDirecion = directionChange;
-
     }
 }
 
@@ -98,7 +93,7 @@ class Game {
     constructor(w, h, d){
         this.fieldWidth = w;
         this.fieldHeight = h;
-        this.gameControl()
+        this.gameControl();
         this.intervalId = null;
         this.arrOfSnakes = [];
         this.apple = { x: 0, y: 0 };
@@ -124,41 +119,35 @@ class Game {
     
     spawnApple(){ 
         this.apple.x = Math.round(Math.random() * this.fieldWidth);
-        this.apple.y = Math.round(Math.random() * this.fieldHeight); 
-        console.log('apple', this.apple);
+        this.apple.y = Math.round(Math.random() * this.fieldHeight);  
+        console.log(this.draw.fieldHeight);
         
     }
+
     createSnakes(){
         const snake = new Snake(this.fieldWidth, this.fieldHeight, this.superInputMap[0]);
-        console.log(snake);
         const snake1 = new Snake(this.fieldWidth, this.fieldHeight, this.superInputMap[1]);
-        console.log(snake1);
-        
         this.arrOfSnakes.push(snake)
         this.arrOfSnakes.push(snake1)
-        console.log(this.arrOfSnakes);
     }
 
     snakesControl(){
         document.addEventListener('keydown', (e)=> {
             for(let i = 0; i < this.arrOfSnakes.length; i++){
                 this.arrOfSnakes[i].changeDirectionOfSnake(e.keyCode)
-                console.log(e.keyCode);
-                
             }
         })
     }
 
     stopGame(){
         clearInterval(this.intervalId);
-
         console.log('game stoped');
     }
 
     startGame(){
         this.stopGame();
         this.createSnakes();
-        this.snakesControl()
+        this.snakesControl();
         //this.arrOfSnakes;
         this.intervalId = setInterval(()=> {
             this.mainLoop()
@@ -180,7 +169,7 @@ class Game {
         for(let i = 0; i < this.arrOfSnakes.length; i++){
             if(this.arrOfSnakes[i].checkAppleCollision(this.apple)){
                 this.arrOfSnakes[i].growSnake();
-                this.spawnApple()
+                this.spawnApple();
             }else{
                 this.arrOfSnakes[i].moveSnake();
             }
@@ -195,12 +184,12 @@ class Game {
 }
 
 class Drawing {
-    constructor(w, h, c){
+    constructor(w, h){
         this.canvas = document.getElementById('canvas');///создавать, а не получать 
         this.ctx = canvas.getContext('2d');
         this.fieldWidth = w;
         this.fieldHeight = h;
-        this.cellSize = c;
+        this.cellSize = 10;
         //this.game = g;
         this.canvas.width = (this.fieldWidth + 1)*this.cellSize;
         this.canvas.height = (this.fieldHeight + 1)*this.cellSize; 
@@ -229,8 +218,8 @@ class Drawing {
 }
 
 
-const draw = new Drawing(fieldWidth, fieldHeight, cellSize)
-const game = new Game(fieldWidth, fieldHeight, draw)
+const draw = new Drawing(fieldWidth, fieldHeight);
+const game = new Game(fieldWidth, fieldHeight, draw);
 
 // var event = new Event("keydown");
 
