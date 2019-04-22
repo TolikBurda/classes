@@ -1,8 +1,10 @@
-let start = document.getElementById('start');
-let stop = document.getElementById('end');
-let twoPlayers = document.getElementById('two')
+// let start = document.getElementById('start');
+// let stop = document.getElementById('end');
+// let twoPlayers = document.getElementById('two');
 // twoPlayers.addEventListener('click', function(e){
 // });
+
+
 
 class Snake {
     constructor(w, h, inputMap){
@@ -62,7 +64,7 @@ class Snake {
         return false
     }
 
-    changeDirectionOfSnake(e){
+    changeDirectionOfSnake(keyCode){
         var directionMap = {
             up : { x: 0, y: -1},
             down: { x: 0, y: 1},
@@ -70,7 +72,7 @@ class Snake {
             left: { x: -1, y: 0}
         }
              
-        let directionChange = directionMap[this.superInputMap[e]]
+        let directionChange = directionMap[this.superInputMap[keyCode]]
 
         if(!directionChange){
             return null
@@ -85,11 +87,11 @@ class Snake {
 
 class Game {
     constructor(d){
+        this.draw = new Drawing();
         this.gameControl();
         this.intervalId = null;
         this.arrOfSnakes = [];
         this.apple = { x: 0, y: 0 };
-        this.draw = d;
         this.timer = 200;
         this.superInputMap = [
             {
@@ -129,6 +131,7 @@ class Game {
 
     stopGame(){
         clearInterval(this.intervalId);
+        this.arrOfSnakes = [];
         console.log('game stopped');
     }
 
@@ -143,11 +146,11 @@ class Game {
     }
 
     gameControl(){
-        start.addEventListener('click', ()=>{                        ///()=>
+        this.draw.startButton.addEventListener('click', ()=>{                        ///()=>
             this.startGame(); 
         } );
 
-        stop.addEventListener('click', ()=>{
+        this.draw.stopButton.addEventListener('click', ()=>{
             this.stopGame();
         } );
     }
@@ -170,10 +173,15 @@ class Game {
     }
 }
 
+
+
+
 class Drawing {
     constructor(){
-        this.canvas = document.getElementById('canvas');///создавать, а не получать 
-        this.ctx = canvas.getContext('2d');
+        this.startButton = null;
+        this.stopButton = null;
+        this.createHtmlElements();
+        this.ctx = this.canvas.getContext('2d');
         this.fieldWidth = 20;
         this.fieldHeight = 20;
         this.cellSize = 10;
@@ -181,7 +189,36 @@ class Drawing {
         this.canvas.height = (this.fieldHeight + 1)*this.cellSize; 
         
     }
+    createHtmlElements(){
+        let arrOfHtmlElements = [];
+        let div = document.createElement('div');
+        let startGame = document.createElement('input');
+        startGame.type = 'button';
+        startGame.id = 'start';
+        startGame.value = 'start game';
+        this.startButton = startGame
+        let endGame = document.createElement('input');
+        endGame.type = 'button';
+        endGame.id = 'end';
+        endGame.value = 'end game';
 
+        this.stopButton = endGame;
+
+        let canv = document.createElement('canvas');
+        canv.id = 'canvas';
+        canv.style = 'display: block;';
+        this.canvas = canv;
+        arrOfHtmlElements.push(startGame);
+        arrOfHtmlElements.push(endGame);
+        arrOfHtmlElements.push(canv);
+        for(let n = 0; n < arrOfHtmlElements.length; n++){
+            div.appendChild(arrOfHtmlElements[n])
+        }
+        document.body.appendChild(div);
+
+        // let start = document.getElementById('start');
+        // let stop = document.getElementById('end');
+    }
     drawField(game){   
         this.ctx.fillStyle = 'white';
         this.ctx.fillRect(0, 0, this.canvas.width, this.canvas.height);
@@ -203,5 +240,5 @@ class Drawing {
     }
 }
 
-const draw = new Drawing();
-const game = new Game(draw);
+//const draw = new Drawing();
+const game = new Game();
