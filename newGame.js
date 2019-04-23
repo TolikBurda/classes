@@ -1,11 +1,3 @@
-// let start = document.getElementById('start');
-// let stop = document.getElementById('end');
-// let twoPlayers = document.getElementById('two');
-// twoPlayers.addEventListener('click', function(e){
-// });
-
-
-
 class Snake {
     constructor(w, h, inputMap){
         this.segments = [];
@@ -52,7 +44,7 @@ class Snake {
     checkTailCollision(segments){
         for(let i = 1; i < segments.length; i++){
             if(this.segments[0].x == segments[i].x && this.segments[0].y == segments[i].y){
-                return i; //stopGame()
+                return i;
             }
         }
         return 0
@@ -71,8 +63,7 @@ class Snake {
             down: { x: 0, y: 1},
             right: { x: 1, y: 0},
             left: { x: -1, y: 0}
-        }
-             
+        }   
         let directionChange = directionMap[this.superInputMap[keyCode]]
 
         if(!directionChange){
@@ -125,7 +116,6 @@ class Game {
     cutTail(){
         for(let i = 0; i < this.arrOfSnakes.length; i++){
             let snake1 = this.arrOfSnakes[i]
-            let head = snake1.segments[0];
             for(let k = 0; k < this.arrOfSnakes.length; k++){
                 let snake2 = this.arrOfSnakes[k];
                 let segmentNumber = snake1.checkTailCollision(snake2.segments)
@@ -137,8 +127,6 @@ class Game {
                     }else{
                         snake1.score += tail.length;
                     }
-                    
-                    
                 }
 
             }
@@ -157,7 +145,6 @@ class Game {
     stopGame(){
         clearInterval(this.intervalId);
         this.arrOfSnakes = [];
-        console.log('game stopped');
     }
 
     startGame(){
@@ -172,7 +159,7 @@ class Game {
 
     gameControl(){
         this.draw.startButton.addEventListener('click', ()=>{                        ///()=>
-            this.startGame(); 
+            this.startGame();  
         } );
 
         this.draw.stopButton.addEventListener('click', ()=>{
@@ -191,7 +178,6 @@ class Game {
                 this.arrOfSnakes[i].moveSnake();
             }
             if(this.arrOfSnakes[i].checkTailCollision(this.arrOfSnakes[i].segments) > 0){
-                //this.stopGame();
             }else if(this.arrOfSnakes[i].checkBordersCollision()){
                 this.stopGame();
             }
@@ -200,9 +186,6 @@ class Game {
         }
     }
 }
-
-
-
 
 class Drawing {
     constructor(){
@@ -217,7 +200,6 @@ class Drawing {
         this.cellSize = 10;
         this.canvas.width = (this.fieldWidth + 1)*this.cellSize;
         this.canvas.height = (this.fieldHeight + 1)*this.cellSize; 
-        
     }
     createHtmlElements(){
         let arrOfHtmlElements = [];
@@ -231,9 +213,7 @@ class Drawing {
         endGame.type = 'button';
         endGame.id = 'end';
         endGame.value = 'end game';
-
         this.stopButton = endGame;
-
         let canv = document.createElement('canvas');
         canv.id = 'canvas';
         canv.style = 'display: block;';
@@ -249,9 +229,6 @@ class Drawing {
             div.appendChild(arrOfHtmlElements[n])
         }
         document.body.appendChild(div);
-
-        // let start = document.getElementById('start');
-        // let stop = document.getElementById('end');
     }
     drawField(game){   
         this.ctx.fillStyle = 'white';
@@ -265,7 +242,6 @@ class Drawing {
             }
         }
         
-        
         this.ctx.strokeStyle = 'magenta';
         this.ctx.strokeRect(game.apple.x*this.cellSize, game.apple.y*this.cellSize, this.cellSize, this.cellSize);
     
@@ -274,5 +250,4 @@ class Drawing {
     }
 }
 
-//const draw = new Drawing();
 const game = new Game();
